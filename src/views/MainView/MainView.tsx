@@ -1,15 +1,15 @@
 import React, {useState} from 'react';
 import './MainView.scss';
-import {TextButton} from "../Common/TextButton/TextButton";
+import {TextButton} from '../Common/TextButton/TextButton';
 import classNames from 'classnames';
-import {ISize} from "../../interfaces/ISize";
-import {ImageButton} from "../Common/ImageButton/ImageButton";
-import {ISocialMedia, SocialMediaData} from "../../data/info/SocialMediaData";
-import {EditorFeatureData, IEditorFeature} from "../../data/info/EditorFeatureData";
-import {Tooltip} from "@material-ui/core";
-import Fade from "@material-ui/core/Fade";
-import withStyles from "@material-ui/core/styles/withStyles";
-import ImagesDropZone from "./ImagesDropZone/ImagesDropZone";
+import {ISize} from '../../interfaces/ISize';
+import {ImageButton} from '../Common/ImageButton/ImageButton';
+import {ISocialMedia, SocialMediaData} from '../../data/info/SocialMediaData';
+import {EditorFeatureData, IEditorFeature} from '../../data/info/EditorFeatureData';
+import {Tooltip} from '@material-ui/core';
+import Fade from '@material-ui/core/Fade';
+import withStyles from '@material-ui/core/styles/withStyles';
+import ImagesDropZone from './ImagesDropZone/ImagesDropZone';
 
 const MainView: React.FC = () => {
     const [projectInProgress, setProjectInProgress] = useState(false);
@@ -32,8 +32,8 @@ const MainView: React.FC = () => {
 
     const DarkTooltip = withStyles(theme => ({
         tooltip: {
-            backgroundColor: "#171717",
-            color: "#ffffff",
+            backgroundColor: '#171717',
+            color: '#ffffff',
             boxShadow: theme.shadows[1],
             fontSize: 11,
             maxWidth: 120
@@ -44,11 +44,11 @@ const MainView: React.FC = () => {
         return SocialMediaData.map((data:ISocialMedia, index: number) => {
             return <DarkTooltip
                 key={index}
-                disableFocusListener
+                disableFocusListener={true}
                 title={data.tooltipMessage}
                 TransitionComponent={Fade}
                 TransitionProps={{ timeout: 600 }}
-                placement="left"
+                placement='left'
             >
                 <div>
                     <ImageButton
@@ -65,18 +65,18 @@ const MainView: React.FC = () => {
     const getEditorFeatureTiles = () => {
         return EditorFeatureData.map((data:IEditorFeature) => {
             return <div
-                className="EditorFeaturesTiles"
+                className='EditorFeaturesTiles'
                 key={data.displayText}
             >
                 <div
-                    className="EditorFeaturesTilesWrapper"
+                    className='EditorFeaturesTilesWrapper'
                 >
                     <img
                         draggable={false}
                         alt={data.imageAlt}
                         src={data.imageSrc}
                     />
-                    <div className="EditorFeatureLabel">
+                    <div className='EditorFeatureLabel'>
                         {data.displayText}
                     </div>
                 </div>
@@ -86,37 +86,35 @@ const MainView: React.FC = () => {
 
     return (
         <div className={getClassName()}>
-            <div className="Slider" id="lower">
-                <div className="TriangleVertical">
-                    <div className="TriangleVerticalContent"/>
+            <div className='Slider' id='lower'>
+                <div className='TriangleVertical'>
+                    <div className='TriangleVerticalContent'/>
                 </div>
             </div>
-
-            <div className="Slider" id="upper">
-                <div className="TriangleVertical">
-                    <div className="TriangleVerticalContent"/>
+            <div className='Slider' id='upper'>
+                <div className='TriangleVertical'>
+                    <div className='TriangleVerticalContent'/>
                 </div>
             </div>
-
-            <div className="LeftColumn">
-                <div className={"LogoWrapper"}>
+            <div className='LeftColumn'>
+                <div className={'LogoWrapper'}>
                     <img
                         draggable={false}
-                        alt={"main-logo"}
-                        src={"ico/main-image-color.png"}
+                        alt={'main-logo'}
+                        src={'ico/main-image-color.png'}
                     />
                 </div>
-                <div className="EditorFeaturesWrapper">
+                <div className='EditorFeaturesWrapper'>
                     {getEditorFeatureTiles()}
                 </div>
-                <div className="TriangleVertical">
-                    <div className="TriangleVerticalContent"/>
+                <div className='TriangleVertical'>
+                    <div className='TriangleVerticalContent'/>
                 </div>
             </div>
-            <div className="RightColumn">
+            <div className='RightColumn'>
                 <div/>
                 <ImagesDropZone/>
-                <div className="SocialMediaWrapper">
+                <div className='SocialMediaWrapper'>
                     {getSocialMediaButtons({width: 30, height: 30})}
                 </div>
             </div>
