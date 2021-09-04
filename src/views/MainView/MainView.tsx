@@ -26,10 +26,7 @@ const MainView: React.FC = () => {
 
     const getClassName = () => {
         return classNames(
-            "MainView", {
-                "InProgress": projectInProgress,
-                "Canceled": !projectInProgress && projectCanceled
-            }
+            "MainView", "InProgress"
         );
     };
 
@@ -115,10 +112,6 @@ const MainView: React.FC = () => {
                 <div className="TriangleVertical">
                     <div className="TriangleVerticalContent"/>
                 </div>
-                {projectInProgress && <TextButton
-                    label={"Go Back"}
-                    onClick={endProject}
-                />}
             </div>
             <div className="RightColumn">
                 <div/>
@@ -126,10 +119,6 @@ const MainView: React.FC = () => {
                 <div className="SocialMediaWrapper">
                     {getSocialMediaButtons({width: 30, height: 30})}
                 </div>
-                {!projectInProgress && <TextButton
-                    label={"Get Started"}
-                    onClick={startProject}
-                />}
             </div>
         </div>
     );

@@ -3,7 +3,7 @@ import sys
 import json
 import pandas as pd
 
-c_fp, j_fp = sys.argv[1:3]
+c_fp, j_fp, new_j_fp = sys.argv[1:4]
 
 with open(j_fp) as f:
     j = json.load(f)
@@ -32,5 +32,6 @@ for i in j['annotations']:
 
 j['annotations'] = ann
 
-with open(j_fp + "_new", 'w') as f:
+with open(new_j_fp, 'w') as f:
     json.dump(j, f)
+
