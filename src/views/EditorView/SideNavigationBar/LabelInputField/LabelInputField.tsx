@@ -76,7 +76,6 @@ class LabelInputField extends React.Component<IProps, IState> {
         } else {
             this.setState({isOpen: true});
             window.addEventListener(EventType.MOUSE_DOWN, this.closeDropdown);
-            window.addEventListener(EventType.KEY_DOWN, this.onKeyDownHandler);
         }
     };
 
@@ -93,7 +92,6 @@ class LabelInputField extends React.Component<IProps, IState> {
         if (!RectUtil.isPointInside(dropDownRect, mousePosition)) {
             this.setState({isOpen: false});
             window.removeEventListener(EventType.MOUSE_DOWN, this.closeDropdown);
-            window.removeEventListener(EventType.KEY_DOWN, this.onKeyDownHandler)
         }
     };
 
@@ -146,18 +144,12 @@ class LabelInputField extends React.Component<IProps, IState> {
         this.props.updateActiveLabelId(this.props.id);
     };
 
-    private onKeyDownHandler = e => {
-        if (e.keyCode === 27) {
-            this.setState({ searchInput: '' });
-        } else if (e.keyCode === 8) {
-            this.setState({ searchInput: this.state.searchInput.slice(0, -1) })
-        } else if (e.key.length === 1) {
-            this.setState({ searchInput: this.state.searchInput + e.key});
-            console.log(this.state.searchInput);
-            const res = this.props.options.findIndex(opt=>opt.name.toLowerCase().startsWith(this.state.searchInput));
-            if (res >= 0)
-                this.scrollbars.scrollTop(res * this.dropdownOptionHeight);
-        }
+    private onSearchChange = e => {
+        const s = e.target.value;
+        this.setState({ searchInput: s });
+        const res = this.props.options.findIndex(opt => opt.name.toLowerCase().startsWith(s));
+        if (res >= 0)
+            this.scrollbars.scrollTop(res * this.dropdownOptionHeight);
     }
 
     public render() {
@@ -195,6 +187,12 @@ class LabelInputField extends React.Component<IProps, IState> {
                                 style={this.getDropdownStyle()}
                                 ref={ref => this.dropdown = ref}
                             >
+                                <input
+                                    value={this.state.searchInput}
+                                    onChange={this.onSearchChange}
+                                    className="DropdownOption"
+                                    autoFocus
+                                    style={{ height: this.dropdownOptionHeight }} />
                                 <Scrollbars
                                     ref={ref => this.scrollbars = ref}
                                     renderTrackHorizontal={props => <div {...props} className="track-horizontal"/>}
