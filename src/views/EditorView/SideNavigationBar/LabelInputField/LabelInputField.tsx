@@ -33,6 +33,7 @@ interface IProps {
 interface IState {
     animate: boolean;
     isOpen: boolean;
+    searchInput: string;
 }
 
 class LabelInputField extends React.Component<IProps, IState> {
@@ -41,10 +42,12 @@ class LabelInputField extends React.Component<IProps, IState> {
     private dropdownMargin: number = 4;
     private dropdownLabel: HTMLDivElement;
     private dropdown: HTMLDivElement;
+    private scrollbars: Scrollbars;
 
     public constructor(props) {
         super(props);
         this.state = {
+            searchInput: '',
             animate: false,
             isOpen: false
         }
@@ -73,6 +76,7 @@ class LabelInputField extends React.Component<IProps, IState> {
         } else {
             this.setState({isOpen: true});
             window.addEventListener(EventType.MOUSE_DOWN, this.closeDropdown);
+            window.addEventListener(EventType.KEY_DOWN, this.onKeyDownHandler);
         }
     };
 
@@ -88,7 +92,8 @@ class LabelInputField extends React.Component<IProps, IState> {
 
         if (!RectUtil.isPointInside(dropDownRect, mousePosition)) {
             this.setState({isOpen: false});
-            window.removeEventListener(EventType.MOUSE_DOWN, this.closeDropdown)
+            window.removeEventListener(EventType.MOUSE_DOWN, this.closeDropdown);
+            window.removeEventListener(EventType.KEY_DOWN, this.onKeyDownHandler)
         }
     };
 
@@ -141,6 +146,20 @@ class LabelInputField extends React.Component<IProps, IState> {
         this.props.updateActiveLabelId(this.props.id);
     };
 
+    private onKeyDownHandler = e => {
+        if (e.keyCode === 27) {
+            this.setState({ searchInput: '' });
+        } else if (e.keyCode === 8) {
+            this.setState({ searchInput: this.state.searchInput.slice(0, -1) })
+        } else if (e.key.length === 1) {
+            this.setState({ searchInput: this.state.searchInput + e.key});
+            console.log(this.state.searchInput);
+            const res = this.props.options.findIndex(opt=>opt.name.toLowerCase().startsWith(this.state.searchInput));
+            if (res >= 0)
+                this.scrollbars.scrollTop(res * this.dropdownOptionHeight);
+        }
+    }
+
     public render() {
         const {size, id, value, onDelete} = this.props;
         return(
@@ -177,6 +196,7 @@ class LabelInputField extends React.Component<IProps, IState> {
                                 ref={ref => this.dropdown = ref}
                             >
                                 <Scrollbars
+                                    ref={ref => this.scrollbars = ref}
                                     renderTrackHorizontal={props => <div {...props} className="track-horizontal"/>}
                                 >
                                     <div>

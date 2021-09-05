@@ -88,7 +88,7 @@ export class COCOImporter extends AnnotationImporter {
 
         return {
             imagesData: ImageDataUtil.arrange(resultImageData, imageData.map((item: ImageData) => item.id)),
-            labelNames: Object.values(labelNameMap)
+            labelNames: Object.values(labelNameMap).sort((a, b)=>a.name.localeCompare(b.name))
         }
     }
 
