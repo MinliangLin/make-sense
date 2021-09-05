@@ -15,6 +15,7 @@ import {LabelName} from "../../../../store/labels/types";
 import {LabelsSelector} from "../../../../store/selectors/LabelsSelector";
 import {PopupWindowType} from "../../../../data/enums/PopupWindowType";
 import {updateActivePopupType} from "../../../../store/general/actionCreators";
+import Select from 'react-select';
 
 interface IProps {
     size: ISize;
@@ -31,6 +32,10 @@ interface IProps {
 }
 
 interface IState {
+    activeSuggestion: number;
+    filteredSuggestions: string[];
+    showSuggestions: boolean;
+    userInput: string;
     animate: boolean;
     isOpen: boolean;
 }
@@ -45,6 +50,10 @@ class LabelInputField extends React.Component<IProps, IState> {
     public constructor(props) {
         super(props);
         this.state = {
+            activeSuggestion: 0,
+            filteredSuggestions: [],
+            showSuggestions: false,
+            userInput: "",
             animate: false,
             isOpen: false
         }
@@ -108,6 +117,8 @@ class LabelInputField extends React.Component<IProps, IState> {
     };
 
     private getDropdownOptions = () => {
+        return this.props.options.map((option: LabelName) => ({value: option.id, label: option.name}));
+
         const onClick = (id: string, event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
             this.setState({isOpen: false});
             window.removeEventListener(EventType.MOUSE_DOWN, this.closeDropdown);
@@ -176,14 +187,10 @@ class LabelInputField extends React.Component<IProps, IState> {
                                 style={this.getDropdownStyle()}
                                 ref={ref => this.dropdown = ref}
                             >
-                                <Scrollbars
-                                    renderTrackHorizontal={props => <div {...props} className="track-horizontal"/>}
-                                >
-                                    <div>
-                                        {this.getDropdownOptions()}
-                                    </div>
-                                </Scrollbars>
-
+                                <Select
+                                    value={value}
+                                    className='DropdownOption'
+                                    options={this.getDropdownOptions()}/>
                             </div>}
                         </div>
                         <div className="ContentWrapper">
