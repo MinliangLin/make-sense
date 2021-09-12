@@ -68,6 +68,7 @@ export class COCOImporter extends AnnotationImporter {
                 continue
 
             if (this.labelType.includes(LabelType.RECT)) {
+                imageDataMap[annotation.image_id].cocoId = annotation.image_id;
                 imageDataMap[annotation.image_id].labelRects.push(LabelUtil.createLabelRect(
                     labelNameMap[annotation.category_id].id,
                     COCOUtils.bbox2rect(annotation.bbox)

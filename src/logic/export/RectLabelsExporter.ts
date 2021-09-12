@@ -39,13 +39,13 @@ export class RectLabelsExporter {
                 "id": Number(label.id),
                 "name": label.name
             })),
-            "images": data.map((imgData: ImageData, index: number) => ({
-                "id": index,
+            "images": data.map((imgData: ImageData) => ({
+                "id": imgData.cocoId,
                 "file_name": imgData.fileData.name
             })),
-            "annotations": data.flatMap((imgData: ImageData, index: number) => (
+            "annotations": data.flatMap((imgData: ImageData) => (
                 imgData.labelRects.map(lbRect => ({
-                    "image_id": index,
+                    "image_id": imgData.cocoId,
                     "category_id": Number(lbRect.labelId),
                     "bbox": [lbRect.rect.x, lbRect.rect.y, lbRect.rect.width, lbRect.rect.height]
                 })))

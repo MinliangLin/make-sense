@@ -6,6 +6,7 @@ import {ImageRepository} from '../logic/imageRepository/ImageRepository';
 export class ImageDataUtil {
     public static createImageDataFromFileData(fileData: File): ImageData {
         return {
+            cocoId: -1,
             id: uuidv4(),
             fileData,
             loadStatus: false,

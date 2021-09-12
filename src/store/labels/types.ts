@@ -56,6 +56,7 @@ export type ImageData = {
     labelLines: LabelLine[];
     labelPolygons: LabelPolygon[];
     labelNameIds: string[];
+    cocoId: number;
 
     // SSD
     isVisitedByObjectDetector: boolean;
