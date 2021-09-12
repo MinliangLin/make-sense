@@ -15,6 +15,10 @@ export const ExportFormatData: ExportFormatDataMap = {
             label: 'A .zip package containing files in VOC XML format.'
         },
         {
+            type: AnnotationFormatType.COCO,
+            label: 'A .json file in COCO format.'
+        },
+        {
             type: AnnotationFormatType.CSV,
             label: 'Single CSV file.'
         }

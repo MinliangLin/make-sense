@@ -101,7 +101,7 @@ export class COCOImporter extends AnnotationImporter {
     protected static mapCOCOCategories(categories: COCOCategory[]): LabelNameMap {
         return categories.reduce((acc: LabelNameMap, category : COCOCategory, index: number) => {
             acc[category.id] = {
-                id: uuidv4(),
+                id: String(category.id),
                 name: category.name,
                 color: ArrayUtil.getByInfiniteIndex(Settings.LABEL_COLORS_PALETTE, index)
             }

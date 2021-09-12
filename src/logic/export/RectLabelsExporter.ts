@@ -15,6 +15,9 @@ import {RectUtil} from '../../utils/RectUtil';
 export class RectLabelsExporter {
     public static export(exportFormatType: AnnotationFormatType): void {
         switch (exportFormatType) {
+            case AnnotationFormatType.COCO:
+                RectLabelsExporter.exportAsCOCO();
+                break;
             case AnnotationFormatType.YOLO:
                 RectLabelsExporter.exportAsYOLO();
                 break;
@@ -27,6 +30,29 @@ export class RectLabelsExporter {
             default:
                 return;
         }
+    }
+
+    private static exportAsCOCO(): void {
+        const data = LabelsSelector.getImagesData();
+        const cocoObj = {
+            "categories": LabelsSelector.getLabelNames().map((label: LabelName, index: number) => ({
+                "id": Number(label.id),
+                "name": label.name
+            })),
+            "images": data.map((imgData: ImageData, index: number) => ({
+                "id": index,
+                "file_name": imgData.fileData.name
+            })),
+            "annotations": data.flatMap((imgData: ImageData, index: number) => (
+                imgData.labelRects.map(lbRect => ({
+                    "image_id": index,
+                    "category_id": Number(lbRect.labelId),
+                    "bbox": [lbRect.rect.x, lbRect.rect.y, lbRect.rect.width, lbRect.rect.height]
+                })))
+            )
+        };
+        const content: string = JSON.stringify(cocoObj);
+        ExporterUtil.saveAs(content, `${ExporterUtil.getExportFileName()}.json`);
     }
 
     private static exportAsYOLO(): void {

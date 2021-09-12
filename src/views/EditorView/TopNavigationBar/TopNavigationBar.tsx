@@ -40,7 +40,6 @@ const TopNavigationBar: React.FC<IProps> = ({updateActivePopupType, updateProjec
                 <div className="NavigationBarGroupWrapper">
                     <div
                         className="Header"
-                        onClick={() => updateActivePopupType(PopupWindowType.EXIT_PROJECT)}
                     >
                         <img
                             draggable={false}

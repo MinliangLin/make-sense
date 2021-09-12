@@ -27,9 +27,9 @@ yarn-debug.log*
 yarn-error.log*
 
 # data
-*.json
-*.csv
-data
+/*.json
+/*.csv
+/data
 
 .vscode
 
