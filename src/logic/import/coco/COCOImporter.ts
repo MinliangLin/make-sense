@@ -84,6 +84,22 @@ export class COCOImporter extends AnnotationImporter {
                 }
             }
         }
+        let maxId = -1;
+        for (const key in imageDataMap) {
+            if (imageDataMap.hasOwnProperty(key)) {
+                const val = imageDataMap[key];
+                maxId = Math.max(maxId, val.cocoId);
+            }
+        }
+        for (const key in imageDataMap) {
+            if (imageDataMap.hasOwnProperty(key)) {
+                const val = imageDataMap[key];
+                if (val.cocoId < 0) {
+                    maxId += 1;
+                    val.cocoId = maxId;
+                }
+            }
+        }
 
         const resultImageData = Object.values(imageDataMap).concat(imageDataPartition.fail);
 
