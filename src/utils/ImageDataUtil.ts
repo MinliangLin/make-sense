@@ -4,9 +4,10 @@ import {FileUtil} from './FileUtil';
 import {ImageRepository} from '../logic/imageRepository/ImageRepository';
 
 export class ImageDataUtil {
+    static counter = -1;
     public static createImageDataFromFileData(fileData: File): ImageData {
         return {
-            cocoId: -1,
+            cocoId: ImageDataUtil.counter--,
             id: uuidv4(),
             fileData,
             loadStatus: false,
