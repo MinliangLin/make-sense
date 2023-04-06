@@ -44,7 +44,7 @@ const TopNavigationBar: React.FC<IProps> = ({updateActivePopupType, updateProjec
                         <img
                             draggable={false}
                             alt={"make-sense"}
-                            src={"/make-sense-ico-transparent.png"}
+                            src={"./make-sense-ico-transparent.png"}
                         />
                         Make Sense
                     </div>
@@ -64,7 +64,7 @@ const TopNavigationBar: React.FC<IProps> = ({updateActivePopupType, updateProjec
                 </div>
                 <div className="NavigationBarGroupWrapper">
                     <ImageButton
-                        image={"ico/github-logo.png"}
+                        image={"./ico/github-logo.png"}
                         imageAlt={"github-logo.png"}
                         buttonSize={{width: 30, height: 30}}
                         href={Settings.GITHUB_URL}
