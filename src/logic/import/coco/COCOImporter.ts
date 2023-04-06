@@ -67,7 +67,6 @@ export class COCOImporter extends AnnotationImporter {
                 continue
 
             if (this.labelType.includes(LabelType.RECT)) {
-                imageDataMap[annotation.image_id].cocoId = annotation.image_id;
                 imageDataMap[annotation.image_id].labelRects.push(LabelUtil.createLabelRect(
                     labelNameMap[annotation.category_id].id,
                     COCOUtils.bbox2rect(annotation.bbox)
@@ -80,22 +79,6 @@ export class COCOImporter extends AnnotationImporter {
                     imageDataMap[annotation.image_id].labelPolygons.push(LabelUtil.createLabelPolygon(
                         labelNameMap[annotation.category_id].id, polygon
                     ))
-                }
-            }
-        }
-        let maxId = -1;
-        for (const key in imageDataMap) {
-            if (imageDataMap.hasOwnProperty(key)) {
-                const val = imageDataMap[key];
-                maxId = Math.max(maxId, val.cocoId);
-            }
-        }
-        for (const key in imageDataMap) {
-            if (imageDataMap.hasOwnProperty(key)) {
-                const val = imageDataMap[key];
-                if (val.cocoId < 0) {
-                    maxId += 1;
-                    val.cocoId = maxId;
                 }
             }
         }
@@ -131,8 +114,10 @@ export class COCOImporter extends AnnotationImporter {
             return acc
         }, {});
         return  items.reduce((acc: ImageDataMap, image: ImageData) => {
-            acc[fileNameCOCOIdMap[image.fileData.name]] = image
-            return acc;
+            const cocoId = fileNameCOCOIdMap[image.fileData.name]
+            image.cocoId = cocoId
+            acc[cocoId] = image
+            return acc
         }, {});
     }
 
