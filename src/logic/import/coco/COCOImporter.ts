@@ -14,6 +14,8 @@ import {LabelType} from '../../../data/enums/LabelType';
 import {AnnotationImporter, ImportResult} from '../AnnotationImporter';
 import {COCOUtils} from './COCOUtils';
 import {Settings} from "../../../settings/Settings";
+import { store } from '../../../index';
+import {updateProjectData} from "../../../store/general/actionCreators";
 
 export type FileNameCOCOIdMap = {[ fileName: string]: number; }
 export type LabelNameMap = { [labelCOCOId: number]: LabelName; }
@@ -33,6 +35,11 @@ export class COCOImporter extends AnnotationImporter {
 
         const reader = new FileReader();
         reader.readAsText(filesData[0]);
+        // set file name as project name
+        store.dispatch(updateProjectData({
+            type: null,
+            name: filesData[0].name
+        }))
         reader.onloadend = (evt: any) => {
             try {
                 const inputImagesData: ImageData[] = LabelsSelector.getImagesData();
